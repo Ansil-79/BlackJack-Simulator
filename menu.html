@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Blackjack — Menu</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Minimal page-specific styles to keep menu centered */
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: #fff;
+      }
+      .menu-wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .menu {
+        width: 360px;
+        background: linear-gradient(180deg, #182b20, #0d2014);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 36px rgba(0, 0, 0, 0.6);
+      }
+      .menu h1 {
+        margin: 0 0 12px;
+        font-size: 1.4rem;
+        color: #fff;
+      }
+      .menu p {
+        margin: 0 0 18px;
+        color: #ddd;
+        font-size: 0.95rem;
+      }
+      .menu .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .menu a.btn {
+        display: inline-block;
+        text-align: center;
+        padding: 12px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #fff;
+        font-weight: 700;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #4caf50, #2e9b47);
+      }
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: #fff;
+      }
+      .menu .small {
+        margin-top: 14px;
+        text-align: center;
+        color: #9aa;
+        font-size: 0.88rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="menu-wrap">
+      <div class="menu">
+        <h1>Blackjack — Menu</h1>
+        <p>
+          Choose an option to get started. "Practice Blackjack" opens the main
+          playing page.
+        </p>
+
+        <div class="buttons">
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              margin-bottom: 8px;
+              align-items: center;
+            "
+          >
+            <label style="color: #ddd; font-weight: 600">Decks</label>
+            <select
+              id="menu-decks"
+              style="
+                padding: 8px;
+                border-radius: 6px;
+                background: rgba(255, 255, 255, 0.04);
+                color: #fff;
+                border: 1px solid rgba(255, 255, 255, 0.06);
+              "
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="6" selected>6</option>
+              <option value="8">8</option>
+            </select>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              margin-bottom: 12px;
+              align-items: center;
+            "
+          >
+            <label style="color: #ddd; font-weight: 600">Dealer Rule</label>
+            <select
+              id="menu-s17"
+              style="
+                padding: 8px;
+                border-radius: 6px;
+                background: rgba(255, 255, 255, 0.04);
+                color: #fff;
+                border: 1px solid rgba(255, 255, 255, 0.06);
+              "
+            >
+              <option value="true">S17 (Stand on Soft 17)</option>
+              <option value="false">H17 (Hit on Soft 17)</option>
+            </select>
+          </div>
+
+          <a id="start-btn" class="btn btn-primary" href="#"
+            >Start Practice (open table)</a
+          >
+          <script>
+            // Start button wiring: build query params and navigate to index.html
+            document.addEventListener("DOMContentLoaded", () => {
+              const start = document.getElementById("start-btn");
+              const decks = document.getElementById("menu-decks");
+              const s17 = document.getElementById("menu-s17");
+              start.addEventListener("click", (e) => {
+                e.preventDefault();
+                const d = decks.value;
+                const s = s17.value;
+                // Navigate to game with params
+                window.location.href = `index.html?decks=${encodeURIComponent(
+                  d
+                )}&s17=${encodeURIComponent(s)}`;
+              });
+            });
+          </script>
+          <a
+            class="btn btn-secondary"
+            href="#rules"
+            onclick="document.getElementById('rules').scrollIntoView({behavior:'smooth'});return false;"
+            >Rules</a
+          >
+          <a
+            class="btn btn-secondary"
+            href="#about"
+            onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'});return false;"
+            >About</a
+          >
+        </div>
+
+        <div id="rules" class="small" style="margin-top: 18px">
+          <h3 style="margin: 0 0 8px; font-size: 1rem; color: #fff">
+            Basic Rules
+          </h3>
+          <p style="margin: 0 0 6px">
+            Goal: get closer to 21 than the dealer without going over. Face
+            cards = 10, Ace = 1 or 11.
+          </p>
+        </div>
+
+        <div id="about" class="small">
+          <h3 style="margin: 8px 0 8px; font-size: 1rem; color: #fff">About</h3>
+          <p style="margin: 0">
+            This is a practice Blackjack interface — click Practice Blackjack to
+            play.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

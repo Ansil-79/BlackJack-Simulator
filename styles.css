@@ -1,0 +1,914 @@
+@media (max-width: 600px) {
+            .dealer-rule, #dealer-rule {
+                white-space: normal !important;
+                overflow-wrap: break-word !important;
+                word-break: break-word !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                display: block !important;
+                text-align: center !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                position: relative !important;
+                box-sizing: border-box !important;
+            }
+}
+/* Responsive adjustments for control buttons on small screens */
+@media (max-width: 600px) {
+    .game-controls, .bet-controls {
+        flex-direction: row !important;
+        gap: 6px !important;
+        width: 100%;
+        max-width: 100vw;
+        margin: 0 auto;
+        justify-content: center;
+        display: flex;
+    }
+            .game-controls button, .bet-controls button {
+                font-size: 12px !important;
+                padding: 4px 2px;
+                min-width: 0;
+                width: 22vw;
+                max-width: 70px;
+                box-sizing: border-box;
+                letter-spacing: 0.01em;
+                line-height: 1.1;
+            }
+}
+/* Game container and general styling */
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    min-height: 100vh;
+    color: #fff;
+}
+
+/* Table text styling */
+.table-text {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 200px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.curved-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.payouts-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    color: #ff0000;
+    text-transform: uppercase;
+    transform: translateY(-50%);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    /* Create curved text effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payouts-text span {
+    display: inline-block;
+    transform-origin: center;
+    animation: curveText 2s ease-out forwards;
+}
+
+@keyframes curveText {
+    0% {
+        transform: rotate(0deg) translateY(0);
+    }
+    100% {
+        transform: rotate(var(--letter-rotate)) translateY(var(--letter-translate));
+    }
+}
+
+.dealer-rule {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    color: #fff500;
+    text-transform: uppercase;
+    top: 60%;
+    transform: translateY(-50%);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
+/* CSS variable for control area height so spacing can be tight but correct */
+:root {
+    /* default controls area height (button height + container padding) */
+    --controls-height: 84px;
+    /* fixed playing table height to prevent layout shifts during animations */
+    --table-height: 640px;
+}
+
+/* Settings panel styling */
+.settings-panel {
+    background-color: #2d2d2d;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #3d3d3d;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.settings-panel h3 {
+    color: #4CAF50;
+    margin-top: 0;
+}
+
+.setting {
+    margin: 10px 0;
+}
+
+.setting label {
+    margin-right: 10px;
+}
+
+/* Game stats */
+.game-stats {
+    position: relative;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    border: 1px solid #3d3d3d;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.chips {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #4CAF50;
+    text-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+/* Table and playing area */
+.table {
+    background: linear-gradient(145deg, #1a472a, #0d231d);
+    padding: 20px;
+    /* keep bottom space just large enough to fit controls (uses CSS var) */
+    padding-bottom: calc(var(--controls-height) + 20px);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden; /* prevent height changes during animations */
+    border: 2px solid #2a5a3a;
+    height: var(--table-height);
+}
+
+.dealer-area, .player-area {
+    margin: 10px 0; /* reduced vertical gap between dealer and player areas */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.dealer-area h2, .player-area h2 {
+    color: white;
+    margin-bottom: 6px; /* tighten heading spacing */
+    text-align: center;
+    width: 100%;
+}
+
+/* Card styling */
+.cards {
+    min-height: 120px; /* reduced from 150 */
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    /* keep cards elevated above the controls area (tight, based on controls) */
+    margin-bottom: calc(var(--controls-height) + 4px);
+    z-index: 2;
+}
+
+.card {
+    width: 100px;
+    height: 140px;
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transition: transform 0.3s ease-out;
+    transform-origin: center center;
+    opacity: 0;
+}
+
+/* Doubled card: display horizontally to indicate double-down */
+.card.doubled {
+    width: 140px;
+    height: 100px;
+    transform-origin: center center;
+    transform: rotate(-90deg);
+}
+
+.card.doubled.dealt {
+    /* keep the deal animation but keep the final rotated orientation */
+    animation: dealCard 0.8s ease-out forwards;
+    transform: rotate(-90deg);
+}
+
+/* Overlap the doubled card slightly over the right-most card (player area) */
+.player-area .cards .card.doubled {
+    margin-left: -40px; /* pull left to overlap previous card */
+    margin-top: 12px;   /* slight vertical offset so it sits nicely */
+    z-index: 8;         /* sit above other cards */
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.35);
+}
+
+/* Split visual separation classes */
+.card.split-left {
+    transition: transform 320ms cubic-bezier(0.22, 0.9, 0.25, 1), margin 320ms ease;
+    transform: translateX(-12px);
+}
+.card.split-right {
+    transition: transform 320ms cubic-bezier(0.22, 0.9, 0.25, 1), margin 320ms ease;
+    transform: translateX(12px);
+}
+
+/* Slight z-index tweak so split cards don't overlap awkwardly */
+.player-area .cards .card.split-left { z-index: 7; }
+.player-area .cards .card.split-right { z-index: 7; }
+
+/* Ensure dealer doubled cards (if any) don't use the same overlap */
+.dealer-area .cards .card.doubled {
+    margin-left: 0;
+    margin-top: 0;
+    transform: rotate(-90deg) translateY(0);
+}
+
+.card.dealt {
+    animation: dealCard 0.8s ease-out forwards;
+}
+
+.card.red {
+    color: red;
+}
+
+.card.black {
+    color: black;
+}
+
+/* Shoe styling */
+.shoe {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 140px;
+    height: 100px;
+    perspective: 1000px;
+}
+
+/* Current bet display in top-left of table */
+.table .current-bet {
+    position: absolute;
+    left: 20px;
+    top: 18px;
+    background: rgba(0,0,0,0.4);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.06);
+    z-index: 10;
+}
+
+.table .current-bet input {
+    width: 100px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #4d4d4d;
+    background: #3d3d3d;
+    color: #fff;
+    margin-right: 8px;
+}
+
+
+.shoe-cards {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: all 0.3s ease;
+}
+
+.card-back-dealt {
+    width: 100px;
+    height: 140px;
+    background: #2d2d2d;
+    border-radius: 5px;
+    position: relative;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.card-back-design {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 3px;
+    background: #b22222;
+    border: 2px solid #fff;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+.card-back-design::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 120px;
+    transform: translate(-50%, -50%);
+    background-image: 
+        radial-gradient(circle at center, #dc143c 2px, transparent 3px),
+        radial-gradient(circle at center, #dc143c 2px, transparent 3px);
+    background-size: 12px 12px;
+    background-position: 0 0, 6px 6px;
+    border: 3px solid #dc143c;
+}
+
+.card-back-design::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 100px;
+    transform: translate(-50%, -50%);
+    background: 
+        linear-gradient(45deg, #dc143c 25%, transparent 25%) -5px 0,
+        linear-gradient(-45deg, #dc143c 25%, transparent 25%) -5px 0,
+        linear-gradient(45deg, transparent 75%, #dc143c 75%) -5px 0,
+        linear-gradient(-45deg, transparent 75%, #dc143c 75%) -5px 0;
+    background-size: 10px 10px;
+    border: 2px solid #dc143c;
+    box-shadow: 
+        0 0 0 3px #b22222,
+        0 0 0 5px #dc143c;
+}
+
+/* Result overlay */
+.result-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 30px 60px;
+    border-radius: 15px;
+    z-index: 100;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(5px);
+}
+
+.result-overlay.win {
+    border: 2px solid #4CAF50;
+    box-shadow: 
+        0 0 30px rgba(76, 175, 80, 0.3),
+        0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+.result-overlay.loss {
+    border: 2px solid #ff5555;
+    box-shadow: 
+        0 0 30px rgba(255, 85, 85, 0.3),
+        0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+.result-overlay.push {
+    border: 2px solid #ffffff;
+    box-shadow: 
+        0 0 30px rgba(255, 255, 255, 0.3),
+        0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+.result-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.result-overlay .result-text {
+    font-size: 3em;
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: pulseText 1s ease-in-out infinite;
+}
+
+.result-overlay.win .result-text {
+    color: #4CAF50;
+    text-shadow: 
+        0 0 10px rgba(76, 175, 80, 0.5),
+        0 0 20px rgba(76, 175, 80, 0.3);
+}
+
+.result-overlay.loss .result-text {
+    color: #ff5555;
+    text-shadow: 
+        0 0 10px rgba(255, 85, 85, 0.5),
+        0 0 20px rgba(255, 85, 85, 0.3);
+}
+
+.result-overlay.push .result-text {
+    color: #ffffff;
+    text-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.5),
+        0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Animations */
+@keyframes dealCard {
+    0% {
+        opacity: 0;
+        transform: translate(calc(100% + 140px), -100px) rotate(-90deg);
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+@keyframes pulseText {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Card reveal animation */
+@keyframes flipCard {
+    0% {
+        transform: rotateY(180deg);
+    }
+    100% {
+        transform: rotateY(0deg);
+    }
+}
+
+.card-reveal {
+    animation: flipCard 0.6s ease-out forwards;
+    transform-style: preserve-3d;
+}
+
+/* Upside-down (X-axis) flip for dealer hidden card reveal */
+@keyframes flipCardX {
+    0% {
+        transform: rotateX(180deg);
+    }
+    50% {
+        opacity: 0.9;
+        transform: rotateX(90deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
+.card-reveal-up {
+    animation: flipCardX 0.6s cubic-bezier(0.22, 0.9, 0.25, 1) forwards;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* Ensure cards render in 3D space so X/Y rotations look correct */
+.card {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* Betting controls */
+.bet-controls {
+    /* positioned at the bottom-center of the playing table so it scrolls with content */
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    z-index: 5;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.28s ease, transform 0.28s ease, visibility 0.28s;
+}
+
+/* When placing a bet only, center the bet controls in the viewport */
+.bet-controls.place-centered {
+    /* when showing as a modal-centered control, center it inside the playing table */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    z-index: 80;
+    transition: opacity 0.28s ease, transform 0.28s ease, visibility 0.28s;
+}
+
+/* utility to hide elements */
+.hidden {
+    /* smooth hide: opacity + transform + pointer-events to allow transitions */
+    opacity: 0 !important;
+    transform: translateY(8px) scale(0.99) !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+
+.bet-controls input {
+    width: 120px;
+    padding: 12px;
+    background-color: #3d3d3d;
+    border: 1px solid #4d4d4d;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 1.1em;
+    text-align: center;
+    outline: none;
+}
+
+/* Chip pile (selectable betting chips) */
+.chip-pile {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    /* vertical position set by JS to sit exactly between player hand and Place Bet */
+    top: auto;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+    z-index: 15;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+/* exiting state: pop/scale down slightly while fading out */
+.bet-controls.exiting,
+.chip-pile.exiting {
+    transform: translateX(-50%) scale(0.92);
+    opacity: 0;
+    transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+/* make hidden transition-friendly (opacity + transform) */
+.hidden {
+    opacity: 0 !important;
+    transform: translateY(8px) scale(0.99) !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+
+.chip {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff 0%, rgba(255,255,255,0.12) 15%, rgba(0,0,0,0.08) 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #000;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.45), inset 0 -6px 12px rgba(0,0,0,0.12);
+    border: 4px solid rgba(0,0,0,0.35);
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.chip:hover { transform: translateY(-4px) scale(1.02); }
+
+.chip.selected {
+    box-shadow: 0 10px 24px rgba(0,0,0,0.55), 0 0 0 6px rgba(76,175,80,0.12);
+    transform: translateY(-6px) scale(1.06);
+    outline: 3px solid rgba(255,255,255,0.06);
+}
+
+.chip.insufficient {
+    animation: chipShake 0.36s ease;
+}
+
+@keyframes chipShake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+/* Colored chip variants by value */
+.chip[data-value="5"] {
+    background: radial-gradient(circle at 30% 30%, #76c7ff 0%, #2196f3 40%, #0b66c2 100%);
+    color: #fff;
+    border-color: rgba(3, 102, 189, 0.9);
+}
+.chip[data-value="10"] {
+    background: radial-gradient(circle at 30% 30%, #9fffa1 0%, #4caf50 40%, #2a8a2f 100%);
+    color: #fff;
+    border-color: rgba(41, 128, 36, 0.9);
+}
+.chip[data-value="25"] {
+    background: radial-gradient(circle at 30% 30%, #fff6a8 0%, #ffeb3b 40%, #f1c40f 100%);
+    color: #000;
+    border-color: rgba(191, 143, 0, 0.9);
+}
+.chip[data-value="50"] {
+    background: radial-gradient(circle at 30% 30%, #ffd9a3 0%, #ffb74d 40%, #ff9800 100%);
+    color: #000;
+    border-color: rgba(204, 102, 0, 0.9);
+}
+.chip[data-value="100"] {
+    background: radial-gradient(circle at 30% 30%, #ffb3b3 0%, #ff5252 40%, #e53935 100%);
+    color: #fff;
+    border-color: rgba(179, 18, 29, 0.9);
+}
+
+/* Slightly larger selected chip ring matching chip color */
+.chip.selected[data-value="5"] { box-shadow: 0 10px 30px rgba(33,150,243,0.35), 0 0 0 8px rgba(33,150,243,0.12); }
+.chip.selected[data-value="10"] { box-shadow: 0 10px 30px rgba(76,175,80,0.35), 0 0 0 8px rgba(76,175,80,0.12); }
+.chip.selected[data-value="25"] { box-shadow: 0 10px 30px rgba(255,235,59,0.25), 0 0 0 8px rgba(255,235,59,0.08); }
+.chip.selected[data-value="50"] { box-shadow: 0 10px 30px rgba(255,152,0,0.35), 0 0 0 8px rgba(255,152,0,0.12); }
+.chip.selected[data-value="100"] { box-shadow: 0 10px 30px rgba(244,67,54,0.35), 0 0 0 8px rgba(244,67,54,0.12); }
+
+.bet-controls input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+#placeBet {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 12px 24px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+#placeBet:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, #45a049, #388e3c);
+}
+
+#placeBet:active {
+    transform: translateY(1px);
+}
+
+#placeBet:disabled {
+    background: linear-gradient(135deg, #666, #555);
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Game controls */
+.game-controls {
+    /* Horizontal row of action buttons (desktop and mobile) - centered across bottom */
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    padding: 14px;
+    /* ensure the CSS variable matches the actual control height here */
+    --controls-height: calc(56px + 28px); /* button height (56) + container padding (14 top + 14 bottom) */
+    background: rgba(0,0,0,0.12);
+    border-radius: 8px;
+    z-index: 10;
+    max-width: calc(100% - 48px);
+}
+
+/* Make each action button fill its grid cell so they are the same size */
+
+.game-controls button {
+    flex: 0 0 120px; /* fixed width for equal-sized buttons in a row */
+    height: 56px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    line-height: 1.05;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.22);
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Position buttons around a visual center so surrender sits in the middle */
+/* button-specific positioning removed — buttons are laid out in a horizontal row */
+
+/* responsive rules removed */
+/* Table background fade effect */
+.table::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.table.showing-result::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* General button styling */
+button {
+    padding: 8px 16px;
+    border: 1px solid #4CAF50;
+    border-radius: 4px;
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+button:disabled {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Individual action button colors */
+button#hit {
+    background: linear-gradient(135deg, #4CAF50, #3b9b3b);
+    color: #fff;
+    border-color: rgba(0,0,0,0.2);
+}
+button#hit:hover { background: linear-gradient(135deg, #45a049, #338033); }
+
+button#stand {
+    background: linear-gradient(135deg, #e53935, #c62828);
+    color: #fff;
+    border-color: rgba(0,0,0,0.2);
+}
+button#stand:hover { background: linear-gradient(135deg, #d32f2f, #b71c1c); }
+
+button#split {
+    background: linear-gradient(135deg, #ffd54f, #ffca28);
+    color: #000;
+    border-color: rgba(0,0,0,0.15);
+}
+button#split:hover { background: linear-gradient(135deg, #ffca28, #fbc02d); }
+
+button#double {
+    background: linear-gradient(135deg, #42a5f5, #1e88e5);
+    color: #fff;
+    border-color: rgba(0,0,0,0.2);
+}
+button#double:hover { background: linear-gradient(135deg, #2196f3, #1976d2); }
+
+button#surrender {
+    background: #ffffff;
+    color: #000;
+    border-color: rgba(0,0,0,0.1);
+}
+button#surrender:hover { background: #f5f5f5; }
+
+/* Responsive rules: chip sizing and wrapping to avoid overflow on small screens */
+
+/* Allow the chip-pile to wrap and constrain its max width so chips never overflow the table */
+.chip-pile {
+    flex-wrap: wrap;
+    max-width: calc(100% - 48px);
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+
+/* Reduce chip size progressively as viewport narrows */
+@media (max-width: 900px) {
+    .chip {
+        width: 52px;
+        height: 52px;
+        font-size: 0.9rem;
+    }
+    .chip-pile { gap: 10px; }
+}
+
+@media (max-width: 600px) {
+    .chip {
+        width: 44px;
+        height: 44px;
+        font-size: 0.82rem;
+    }
+    .chip.selected { transform: translateY(-5px) scale(1.03); }
+    .chip-pile { gap: 8px; }
+}
+
+@media (max-width: 420px) {
+    .chip {
+        width: 40px;
+        height: 40px;
+        font-size: 0.78rem;
+    }
+    .chip-pile { gap: 6px; }
+}
+
+/* All responsive media queries removed. Layout will be fixed across devices. */
+
+/* Start overlay shown when user hasn't started from the menu */
+.start-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    pointer-events: none;
+}
+.start-overlay-inner {
+    pointer-events: auto;
+    background: rgba(0,0,0,0.8);
+    padding: 28px 36px;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+.start-overlay .menu-link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: linear-gradient(135deg,#4CAF50,#2e9b47);
+    color: #fff;
+    text-decoration: none;
+}
+.start-overlay.hidden { display: none; }
+

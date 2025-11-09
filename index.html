@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blackjack Game</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <!-- Settings removed from table UI. Player must start from the menu with chosen rules. -->
+
+      <!-- Overlay shown when user arrives without choosing settings from the menu -->
+      <div id="start-overlay" class="start-overlay hidden">
+        <div class="start-overlay-inner">
+          <h2>Please start from the Menu</h2>
+          <p>
+            Select number of decks and dealer rule from the menu, then click
+            Start.
+          </p>
+          <a class="menu-link" href="menu.html">Open Menu</a>
+        </div>
+      </div>
+
+      <div class="game-stats">
+        <div class="chips">Balance: $<span id="balance">1000</span></div>
+      </div>
+
+      <div class="table">
+        <div class="shoe">
+          <div class="shoe-cards" id="shoe-cards">
+            <div class="remaining-cards" id="remaining-cards"></div>
+          </div>
+        </div>
+        <div class="table-text">
+          <div class="curved-text">
+            <div class="payouts-text" id="curved-text">
+              BLACKJACK PAYS 3 TO 2
+            </div>
+            <div class="dealer-rule" id="dealer-rule"></div>
+          </div>
+        </div>
+        <!-- Chip pile will be rendered here (select a chip to set bet) -->
+        <div id="chipPile" class="chip-pile">
+          <button class="chip" data-value="5">$5</button>
+          <button class="chip" data-value="10">$10</button>
+          <button class="chip" data-value="25">$25</button>
+          <button class="chip" data-value="50">$50</button>
+          <button class="chip" data-value="100">$100</button>
+        </div>
+        <div class="dealer-area">
+          <div id="dealer-cards" class="cards"></div>
+        </div>
+        <!-- Move player cards further below dealer rule -->
+        <div style="height: 80px"></div>
+        <div class="player-area">
+          <div id="player-cards" class="cards"></div>
+          <div class="game-controls">
+            <button id="hit">Hit</button>
+            <button id="stand">Stand</button>
+            <button id="double">Double</button>
+            <button id="split">Split</button>
+            <button id="surrender">Surren</button>
+          </div>
+        </div>
+        <div class="result-overlay">
+          <p class="result-text"></p>
+          <p class="result-amount"></p>
+        </div>
+
+        <div class="bet-controls">
+          <button id="placeBet">Place Bet</button>
+        </div>
+      </div>
+    </div>
+    <script src="blackjack.js"></script>
+    <script src="ui.js"></script>
+    <script>
+      // Require selection from the menu: read params from URL. If missing,
+      // show an overlay directing the user to menu.html. When present, use
+      // those values to initialize the game and UI.
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const decksParam = parseInt(params.get("decks"));
+        const s17Param = params.get("s17");
+        const overlay = document.getElementById("start-overlay");
+
+        const validDecks = !isNaN(decksParam) && decksParam > 0;
+        const validS17 = s17Param === "true" || s17Param === "false";
+
+        // Set dealer rule text
+        const dealerRuleDiv = document.getElementById("dealer-rule");
+        if (validS17 && dealerRuleDiv) {
+          dealerRuleDiv.textContent =
+            s17Param === "true"
+              ? "Dealer must stand on soft 17 (S17)"
+              : "Dealer must hit on soft 17 (H17)";
+        } else if (dealerRuleDiv) {
+          dealerRuleDiv.textContent = "";
+        }
+
+        if (!validDecks || !validS17) {
+          // Show overlay instructing user to go to menu
+          if (overlay) overlay.classList.remove("hidden");
+          // ensure action controls and bet controls are hidden/disabled
+          const placeBet = document.getElementById("placeBet");
+          if (placeBet) placeBet.disabled = true;
+          const gameControls = document.querySelector(".game-controls");
+          if (gameControls) gameControls.classList.add("hidden");
+        } else {
+          if (overlay) overlay.classList.add("hidden");
+          // initialize with selected settings (surrender kept disabled)
+          const game = new Blackjack(
+            decksParam,
+            s17Param === "true",
+            false,
+            1000
+          );
+          // expose for debugging
+          window.game = game;
+          const ui = new BlackjackUI(game);
+          window.ui = ui;
+          // initial button states
+          ui.updateControls(false, false, false, false);
+        }
+      })();
+    </script>
+  </body>
+</html>
