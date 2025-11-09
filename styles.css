@@ -688,7 +688,7 @@
 #placeBet {
     background: linear-gradient(135deg, #4CAF50, #45a049);
     color: white;
-    padding: 12px 24px;
+    padding: 12px 5px;
     font-size: 1.1em;
     font-weight: bold;
     border: none;
